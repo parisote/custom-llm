@@ -11,7 +11,7 @@ class Item(BaseModel):
     temperature: float
 
 
-@app.get("/")
+@app.get("/health")
 def read_root():
     return {"Hello": "World Tom"}
 
