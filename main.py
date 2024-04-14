@@ -22,4 +22,5 @@ def read_item(item_id: int, q: Union[str, None] = None):
 
 @app.post("/v1/chat/completions")
 def chat_openai(item: Item):
+    print(item)
     return item
