@@ -1,6 +1,5 @@
-import os
+from typing import Union
 
-from groq import Groq
 from fastapi import FastAPI
 from pydantic import BaseModel
 from typing import List, Optional
@@ -35,19 +34,6 @@ class ChatCompletion(BaseModel):
     usage: Usage
     choices: List[Choice]
 
-client = Groq(
-    api_key=os.environ.get("GROQ_API_KEY"),
-)
-
-chat_completion = client.chat.completions.create(
-    messages=[
-        {
-            "role": "user",
-            "content": "Explain the importance of fast language models",
-        }
-    ],
-    model="mixtral-8x7b-32768",
-)
 
 @app.get("/health")
 def read_root():
@@ -56,14 +42,25 @@ def read_root():
 @app.post("/v1/chat/completions", response_model=ChatCompletion)
 def chat_openai(item: Item):
     print(item)
-    chat_completion = client.chat.completions.create(
-    messages=[
+    return {
+    "id": "chatcmpl-abc123",
+    "object": "chat.completion",
+    "created": 1677858242,
+    "model": "gpt-3.5-turbo-0613",
+    "usage": {
+        "prompt_tokens": 13,
+        "completion_tokens": 7,
+        "total_tokens": 20
+    },
+    "choices": [
         {
-            "role": "user",
-            "content": "Explain the importance of fast language models",
+            "message": {
+                "role": "assistant",
+                "content": "\n\nThis is a test!"
+            },
+            "logprobs": None,
+            "finish_reason": "stop",
+            "index": 0
         }
-        ],
-        model="mixtral-8x7b-32768",
-    )
-
-    print(chat_completion.choices[0].message.content)
+    ]
+}
