@@ -21,6 +21,10 @@ class Slots(BaseModel):
     def add_choice(self, choice: Choice):
         self.choices.append(choice)
 
+@app.get("/health")
+def read_root():
+    return {"Hello": "World Tom"}
+
 @app.get("/cancha", response_model=Slots)
 def chat_openai(day: str):
     slots = Slots()
