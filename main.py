@@ -55,6 +55,7 @@ def read_root():
 
 @app.post("/v1/chat/completions", response_model=ChatCompletion)
 def chat_openai(item: Item):
+    print(item)
     chat_completion = client.chat.completions.create(
     messages=[
         {
@@ -64,6 +65,6 @@ def chat_openai(item: Item):
         ],
         model="mixtral-8x7b-32768",
     )
-
-    print(chat_completion.choices[0].message.content)
+    print("RESPONSE")
+    print(chat_completion)
     return chat_completion
